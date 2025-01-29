@@ -16,6 +16,7 @@
 package com.example.reply.ui
 
 import android.app.Activity
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -44,6 +45,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -116,12 +118,26 @@ fun ReplyListAndDetailContent(
                 )
             }
         }
-        val activity = LocalContext.current as Activity
+        // ↓ @Preview error due to cast attempt to BridgeContext
+        // val activity = LocalContext.current as Activity
+
+        val context = LocalContext.current
+        if (context is Activity) {
+            // Use the context as an Activity if needed
+            val activity = context
+        } else {
+            // Handle the case where the context is not an Activity
+            Log.w("MyComposable", "Context is not an Activity in this environment.")
+        }
+
+        // NEXT: figure out how to add activity to onBackPressed = { activity.finish() }
+
         ReplyDetailsScreen(
             replyUiState = replyUiState,
             modifier = Modifier
                 .padding(top = dimensionResource(R.dimen.email_list_item_vertical_spacing))
-                .weight(1f),
+                .weight(1f)
+                .testTag(stringResource(R.string.details_screen)),
             onBackPressed = {}
         )
     }

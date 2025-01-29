@@ -73,3 +73,21 @@ fun ReplyAppCompactPreview() {
         }
     }
 }
+@Preview(showBackground = true, widthDp = 700)
+@Composable
+fun ReplyAppPreviewMedium() {
+    ReplyTheme {
+        Surface {
+            ReplyApp(windowSize = WindowWidthSizeClass.Medium)
+        }
+    }
+}
+@Preview(widthDp = 1400, apiLevel = 34)
+@Composable
+fun ReplyAppPreviewLargeExpanded() {
+    ReplyTheme {
+        Surface {
+            ReplyApp(windowSize = WindowWidthSizeClass.Expanded)
+        }
+    }
+}
